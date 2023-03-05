@@ -167,6 +167,13 @@ export default abstract class HW3Level extends Scene {
                 this.sceneManager.changeToScene(this.nextLevel);
                 break;
             }
+            /* case "DAMAGED": {
+                this.player.animation.playIfNotAlready("TAKING_DAMAGE");
+                setTimeout(() => {
+                    this.player.animation.playIfNotAlready("IDLE");
+                    console.log("ASDBASD");
+                }, 150);
+            } */
             case HW3Events.HEALTH_CHANGE: {
                 this.handleHealthChange(event.data.get("curhp"), event.data.get("maxhp"));
                 break;
@@ -301,6 +308,7 @@ export default abstract class HW3Level extends Scene {
         this.receiver.subscribe(HW3Events.LEVEL_END);
         this.receiver.subscribe(HW3Events.HEALTH_CHANGE);
         this.receiver.subscribe(HW3Events.PLAYER_DEAD);
+        this.receiver.subscribe("DAMAGED");
     }
     /**
      * Adds in any necessary UI to the game
@@ -403,7 +411,7 @@ export default abstract class HW3Level extends Scene {
 
         // Add the player to the scene
         this.player = this.add.animatedSprite(key, HW3Layers.PRIMARY);
-        this.player.scale.set(1, 1);
+        this.player.scale.set(.125, .125);
         this.player.position.copy(this.playerSpawn);
         
         // Give the player physics

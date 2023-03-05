@@ -1,5 +1,6 @@
 import MathUtils from "../../../Wolfie2D/Utils/MathUtils";
 import { PlayerStates } from "../PlayerController";
+import { GameEventType } from "../../../Wolfie2D/Events/GameEventType";
 import PlayerState from "./PlayerState";
 
 export default class Fall extends PlayerState {
@@ -18,6 +19,8 @@ export default class Fall extends PlayerState {
             if (chealth != this.parent.health) {
                 /* this.emitter.fireEvent("DAMAGED", {curhp: this.parent.health, maxhp: this.parent.maxHealth}); */
                 console.log("Took Damage");
+                let damagedAudio = this.owner.getScene().getDamagedAudioKey();
+		        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: damagedAudio, loop: false, holdReference: false});
                 this.owner.animation.playIfNotAlready("TAKING_DAMAGE");
                 setTimeout(() => {
                     this.owner.animation.playIfNotAlready("IDLE");

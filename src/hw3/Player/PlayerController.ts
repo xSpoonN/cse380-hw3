@@ -35,6 +35,8 @@ export const PlayerAnimations = {
  */
 export const PlayerTweens = {
     FLIP: "FLIP",
+    FLIPL: "FLIPL",
+    FLIPR: "FLIPR",
     DEATH: "DEATH"
 } as const
 

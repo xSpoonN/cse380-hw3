@@ -90,7 +90,9 @@ export default abstract class HW3Level extends Scene {
     /** Sound and music */
     protected levelMusicKey: string;
     protected jumpAudioKey: string;
+    protected damagedAudioKey: string;
     protected tileDestroyedAudioKey: string;
+    protected deadgeAudioKey: string;
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: {
@@ -418,7 +420,30 @@ export default abstract class HW3Level extends Scene {
         this.player.addPhysics(new AABB(this.player.position.clone(), this.player.boundary.getHalfSize().clone()));
 
         // TODO - give the player their flip tween
-
+        this.player.tweens.add(PlayerTweens.FLIPL, {
+            startDelay: 0,
+            duration: 300,
+            effects: [
+                {
+                    property: "rotation",
+                    start: -2*Math.PI,
+                    end: 0,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                }
+            ]
+        });
+        this.player.tweens.add(PlayerTweens.FLIPR, {
+            startDelay: 0,
+            duration: 300,
+            effects: [
+                {
+                    property: "rotation",
+                    start: 0,
+                    end: 2*Math.PI,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                }
+            ]
+        });
         // Give the player a death animation
         this.player.tweens.add(PlayerTweens.DEATH, {
             startDelay: 0,
@@ -476,6 +501,12 @@ export default abstract class HW3Level extends Scene {
 
     // Get the key of the player's jump audio file
     public getJumpAudioKey(): string {
-        return this.jumpAudioKey
+        return this.jumpAudioKey;
+    }
+    public getDamagedAudioKey(): string {
+        return this.damagedAudioKey;
+    }
+    public getDeadgeAudioKey(): string {
+        return this.deadgeAudioKey;
     }
 }

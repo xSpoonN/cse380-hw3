@@ -31,14 +31,15 @@ export default class PlayerWeapon extends ParticleSystem {
      */
     public setParticleAnimation(particle: Particle) {
         // Give the particle a random velocity.
-        let mpos: Vec2 = Input.getMousePosition();
-        /* console.log(`${mpos.x}, ${mpos.y}`); */
-        let cpos: Vec2 = this.sourcePoint;
-        /* console.log(`${cpos.x}, ${cpos.y}`); */
-        particle.vel = RandUtils.randVec(100, 200, -32, 32);
-        particle.vel = RandUtils.randVec(mpos.x - cpos.x-50, mpos.x - cpos.x+50, mpos.y-cpos.y-32+150, mpos.y-cpos.y+32+150);
+        let mpos: Vec2 = Input.getGlobalMousePosition();
+        let cpos: Vec2 = particle.position;
+        /* console.log(`mpos: ${mpos.x}, ${mpos.y}, cpos: ${cpos.x}, ${cpos.y}`); */
+        /* particle.vel = RandUtils.randVec(100, 200, -32, 32); */
+        particle.vel = RandUtils.randVec(mpos.x - cpos.x-50, mpos.x - cpos.x+50, mpos.y-cpos.y-32, mpos.y-cpos.y+32);
         /* particle.vel = new Vec2(mpos.x - cpos.x, mpos.y-cpos.y); */
         particle.color = Color.MAGENTA;
+        /* particle.setGroup("WEAPON"); */
+        /* particle.setTrigger("DESTRUCTABLE", "PARTICLE", undefined); */
 
         // Give the particle tweens
         particle.tweens.add("active", {
@@ -53,6 +54,7 @@ export default class PlayerWeapon extends ParticleSystem {
                 }
             ]
         });
+        /* Somehow call handleParticleHit() from HW3Level */
     }
 
 }

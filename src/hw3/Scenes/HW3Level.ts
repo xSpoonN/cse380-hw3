@@ -96,7 +96,8 @@ export default abstract class HW3Level extends Scene {
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: {
-            // TODO configure the collision groups and collision map
+            groupNames: ["PLAYER", "WEAPON", "GROUND", "DESTRUCTABLE"],
+            collisions: [[0,1,1,0],[1,0,0,1],[1,0,0,1],[0,1,1,0]]
          }});
         this.add = new HW3FactoryManager(this, this.tilemaps);
     }
@@ -156,6 +157,7 @@ export default abstract class HW3Level extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch (event.type) {
             case HW3Events.PLAYER_ENTERED_LEVEL_END: {
+                console.log("AYUSVKDUYVAKUYWVKUYAVA");
                 this.handleEnteredLevelEnd();
                 break;
             }
@@ -167,6 +169,11 @@ export default abstract class HW3Level extends Scene {
             // When the level ends, change the scene to the next level
             case HW3Events.LEVEL_END: {
                 this.sceneManager.changeToScene(this.nextLevel);
+                break;
+            }
+            case "PARTICLE": {
+                /* console.log("BLAHasdasd"); */
+                this.handleParticleHit(event.data.get("node"));
                 break;
             }
             /* case "DAMAGED": {
@@ -198,6 +205,7 @@ export default abstract class HW3Level extends Scene {
      * @param particleId the id of the particle
      */
     protected handleParticleHit(particleId: number): void {
+        console.log("BLAH");
         let particles = this.playerWeaponSystem.getPool();
 
         let particle = particles.find(particle => particle.id === particleId);
@@ -218,6 +226,7 @@ export default abstract class HW3Level extends Scene {
                     // If the tile is collideable -> check if this particle is colliding with the tile
                     if(tilemap.isTileCollidable(col, row) && this.particleHitTile(tilemap, particle, col, row)){
                         this.emitter.fireEvent(GameEventType.PLAY_SOUND, { key: this.tileDestroyedAudioKey, loop: false, holdReference: false });
+                        tilemap.setTileAtRowCol(new Vec2(col, row), 0);
                         // TODO Destroy the tile
                     }
                 }
@@ -235,7 +244,9 @@ export default abstract class HW3Level extends Scene {
      * @returns true of the particle hit the tile; false otherwise
      */
     protected particleHitTile(tilemap: OrthogonalTilemap, particle: Particle, col: number, row: number): boolean {
+        /* console.log("Blah"); */
         // TODO detect whether a particle hit a tile
+        return true;
         return;
     }
 
@@ -244,6 +255,7 @@ export default abstract class HW3Level extends Scene {
      */
     protected handleEnteredLevelEnd(): void {
         // If the timer hasn't run yet, start the end level animation
+        console.log("Player ended level");
         if (!this.levelEndTimer.hasRun() && this.levelEndTimer.isStopped()) {
             this.levelEndTimer.start();
             this.levelEndLabel.tweens.play("slideIn");
@@ -300,6 +312,9 @@ export default abstract class HW3Level extends Scene {
         this.walls.addPhysics();
         // Add physics to the destructible layer of the tilemap
         this.destructable.addPhysics();
+        this.destructable.setGroup("DESTRUCTABLE");
+        this.destructable.setTrigger("WEAPON", "PARTICLE", undefined);
+        this.walls.setGroup("GROUND");
     }
     /**
      * Handles all subscriptions to events
@@ -310,7 +325,7 @@ export default abstract class HW3Level extends Scene {
         this.receiver.subscribe(HW3Events.LEVEL_END);
         this.receiver.subscribe(HW3Events.HEALTH_CHANGE);
         this.receiver.subscribe(HW3Events.PLAYER_DEAD);
-        this.receiver.subscribe("DAMAGED");
+        this.receiver.subscribe("PARTICLE");
     }
     /**
      * Adds in any necessary UI to the game

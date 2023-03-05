@@ -77,6 +77,7 @@ export default class PlayerController extends StateMachineAI {
         this.owner = owner;
 
         this.weapon = options.weaponSystem;
+        this.owner.setGroup("PLAYER");
 
         this.tilemap = this.owner.getScene().getTilemap(options.tilemap) as OrthogonalTilemap;
         this.speed = 400;

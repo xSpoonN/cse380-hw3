@@ -21,11 +21,8 @@ export default class Fall extends PlayerState {
                 console.log("Took Damage");
                 let damagedAudio = this.owner.getScene().getDamagedAudioKey();
 		        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: damagedAudio, loop: false, holdReference: false});
-                this.owner.animation.playIfNotAlready("TAKING_DAMAGE");
-                setTimeout(() => {
-                    this.owner.animation.playIfNotAlready("IDLE");
-                    console.log("Damage done");
-                }, 150);
+                this.owner.animation.play("TAKING_DAMAGE");
+                this.owner.animation.queue("IDLE", false, undefined);
             }
             this.finished(PlayerStates.IDLE);
         } 

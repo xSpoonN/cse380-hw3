@@ -2,6 +2,7 @@ import AABB from "../../Wolfie2D/DataTypes/Shapes/AABB";
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import HW3Level from "./HW3Level";
 import RenderingManager from "../../Wolfie2D/Rendering/RenderingManager";
+import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import SceneManager from "../../Wolfie2D/Scene/SceneManager";
 import Viewport from "../../Wolfie2D/SceneGraph/Viewport";
 import HW4Level2 from "./HW3Level2";
@@ -55,8 +56,8 @@ export default class Level1 extends HW3Level {
         // Music and sound
         this.levelMusicKey = Level1.LEVEL_MUSIC_KEY
         this.jumpAudioKey = Level1.JUMP_AUDIO_KEY;
-        this.damagedAudioKey = Level1.DAMAGED_AUDIO_KEY;
         this.tileDestroyedAudioKey = Level1.TILE_DESTROYED_KEY;
+        this.damagedAudioKey = Level1.DAMAGED_AUDIO_KEY;
         this.deadgeAudioKey = Level1.DEADGE_AUDIO_KEY;
 
         // Level end size and position
@@ -85,6 +86,12 @@ export default class Level1 extends HW3Level {
      */
     public unloadScene(): void {
         // TODO decide which resources to keep/cull 
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: Level1.LEVEL_MUSIC_KEY});
+        this.load.keepAudio(this.jumpAudioKey);
+        this.load.keepAudio(this.tileDestroyedAudioKey);
+        this.load.keepAudio(this.damagedAudioKey);
+        this.load.keepAudio(this.deadgeAudioKey);
+        this.load.keepSpritesheet(this.playerSpriteKey);
     }
 
     public startScene(): void {

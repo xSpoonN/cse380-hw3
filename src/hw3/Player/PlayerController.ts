@@ -118,6 +118,9 @@ export default class PlayerController extends StateMachineAI {
         if (Input.isPressed(HW3Controls.ATTACK) && !this.weapon.isSystemRunning()) {
             // Start the particle system at the player's current position
             this.weapon.startSystem(500, 0, this.owner.position);
+            if (this.faceDir.x < 0) this.owner.animation.play("ATTACKING_LEFT", false, undefined);
+            else this.owner.animation.play("ATTACKING_RIGHT", false, undefined);
+            this.owner.animation.queue("IDLE", false, undefined);
         }
 
 	}
@@ -140,6 +143,8 @@ export default class PlayerController extends StateMachineAI {
         this._health = MathUtils.clamp(health, 0, this.maxHealth);
         // When the health changes, fire an event up to the scene.
         this.emitter.fireEvent(HW3Events.HEALTH_CHANGE, {curhp: this.health, maxhp: this.maxHealth});
+        this.owner.animation.play("TAKING_DAMAGE");
+        this.owner.animation.queue("IDLE", false, undefined);
         // If the health hit 0, change the state of the player
         if (this.health === 0) { this.changeState(PlayerStates.DEAD); }
     }

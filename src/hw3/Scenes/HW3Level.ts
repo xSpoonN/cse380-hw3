@@ -157,7 +157,7 @@ export default abstract class HW3Level extends Scene {
     protected handleEvent(event: GameEvent): void {
         switch (event.type) {
             case HW3Events.PLAYER_ENTERED_LEVEL_END: {
-                console.log("AYUSVKDUYVAKUYWVKUYAVA");
+                /* console.log("AYUSVKDUYVAKUYWVKUYAVA"); */
                 this.handleEnteredLevelEnd();
                 break;
             }
@@ -177,11 +177,8 @@ export default abstract class HW3Level extends Scene {
                 break;
             }
             /* case "DAMAGED": {
-                this.player.animation.playIfNotAlready("TAKING_DAMAGE");
-                setTimeout(() => {
-                    this.player.animation.playIfNotAlready("IDLE");
-                    console.log("ASDBASD");
-                }, 150);
+                this.owner.animation.play("TAKING_DAMAGE");
+                this.owner.animation.queue("IDLE", false, undefined);
             } */
             case HW3Events.HEALTH_CHANGE: {
                 this.handleHealthChange(event.data.get("curhp"), event.data.get("maxhp"));
@@ -255,7 +252,7 @@ export default abstract class HW3Level extends Scene {
      */
     protected handleEnteredLevelEnd(): void {
         // If the timer hasn't run yet, start the end level animation
-        console.log("Player ended level");
+        /* console.log("Player ended level"); */
         if (!this.levelEndTimer.hasRun() && this.levelEndTimer.isStopped()) {
             this.levelEndTimer.start();
             this.levelEndLabel.tweens.play("slideIn");
@@ -367,7 +364,7 @@ export default abstract class HW3Level extends Scene {
                 {
                     property: TweenableProperties.posX,
                     start: -300,
-                    end: 300,
+                    end: 150,
                     ease: EaseFunctionType.OUT_SINE
                 }
             ]

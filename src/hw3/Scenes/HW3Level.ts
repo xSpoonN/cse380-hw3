@@ -96,7 +96,7 @@ export default abstract class HW3Level extends Scene {
 
     public constructor(viewport: Viewport, sceneManager: SceneManager, renderingManager: RenderingManager, options: Record<string, any>) {
         super(viewport, sceneManager, renderingManager, {...options, physics: {
-            groupNames: ["PLAYER", "WEAPON", "GROUND", "DESTRUCTABLE"],
+            groupNames: ["GROUND", "PLAYER", "WEAPON", "DESTRUCTABLE"],
             collisions: [[0,1,1,0],[1,0,0,1],[1,0,0,1],[0,1,1,0]]
          }});
         this.add = new HW3FactoryManager(this, this.tilemaps);
@@ -315,6 +315,8 @@ export default abstract class HW3Level extends Scene {
         this.destructable.setGroup("DESTRUCTABLE");
         this.destructable.setTrigger("WEAPON", "PARTICLE", undefined);
         this.walls.setGroup("GROUND");
+        /* this.getTilemap(this.tilemapKey).setGroup("GROUND"); */
+
     }
     /**
      * Handles all subscriptions to events

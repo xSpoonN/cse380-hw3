@@ -12,6 +12,7 @@ export default class Dead extends PlayerState {
     // Trigger the player's death animation when we enter the dead state
     public onEnter(options: Record<string, any>): void {
         this.owner.tweens.play(PlayerTweens.DEATH);
+        this.owner.freeze();
         /* this.owner.animation.play("DYING", false, undefined);
         this.owner.animation.queue("DEATH", false, HW3Events.PLAYER_DEAD); */
         let deadgeAudio = this.owner.getScene().getDeadgeAudioKey();

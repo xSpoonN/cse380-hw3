@@ -211,7 +211,7 @@ export default abstract class HW3Level extends Scene {
      * @param particleId the id of the particle
      */
     protected handleParticleHit(particleId: number): void {
-        console.log("BLAH");
+        /* console.log("BLAH"); */
         let particles = this.playerWeaponSystem.getPool();
 
         let particle = particles.find(particle => particle.id === particleId);

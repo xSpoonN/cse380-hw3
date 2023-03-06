@@ -27,7 +27,7 @@ export const PlayerAnimations = {
     JUMP: "JUMP",
     TAKING_DAMAGE: "TAKING_DAMAGE",
     DYING: "DYING",
-    DEATH: "DEATH",
+    DEATH: "DEAD",
 } as const
 
 /**
@@ -143,9 +143,12 @@ export default class PlayerController extends StateMachineAI {
         this._health = MathUtils.clamp(health, 0, this.maxHealth);
         // When the health changes, fire an event up to the scene.
         this.emitter.fireEvent(HW3Events.HEALTH_CHANGE, {curhp: this.health, maxhp: this.maxHealth});
-        this.owner.animation.play("TAKING_DAMAGE");
-        this.owner.animation.queue("IDLE", false, undefined);
+        /* this.owner.animation.play("TAKING_DAMAGE");
+        this.owner.animation.queue("IDLE", false, undefined); */
         // If the health hit 0, change the state of the player
-        if (this.health === 0) { this.changeState(PlayerStates.DEAD); }
+        if (this.health === 0) { 
+            this.changeState(PlayerStates.DEAD); 
+            this.emitter.fireEvent("DYING");
+        }
     }
 }

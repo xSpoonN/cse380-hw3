@@ -176,11 +176,20 @@ export default abstract class HW3Level extends Scene {
                 this.handleParticleHit(event.data.get("node"));
                 break;
             }
+            case "DYING": {
+                this.player.animation.play("DYING", true, undefined);
+                setTimeout(() => {
+                    this.player.animation.play("DEAD", false, undefined);}, 300);
+                /* this.player.animation.queue("DEATH", false, undefined); */
+                break;
+            }
             /* case "DAMAGED": {
                 this.owner.animation.play("TAKING_DAMAGE");
                 this.owner.animation.queue("IDLE", false, undefined);
             } */
             case HW3Events.HEALTH_CHANGE: {
+                this.player.animation.play("TAKING_DAMAGE", false, undefined);
+                this.player.animation.queue("IDLE", false, undefined);
                 this.handleHealthChange(event.data.get("curhp"), event.data.get("maxhp"));
                 break;
             }
@@ -325,6 +334,7 @@ export default abstract class HW3Level extends Scene {
         this.receiver.subscribe(HW3Events.HEALTH_CHANGE);
         this.receiver.subscribe(HW3Events.PLAYER_DEAD);
         this.receiver.subscribe("PARTICLE");
+        this.receiver.subscribe("DYING");
     }
     /**
      * Adds in any necessary UI to the game
@@ -461,14 +471,14 @@ export default abstract class HW3Level extends Scene {
         // Give the player a death animation
         this.player.tweens.add(PlayerTweens.DEATH, {
             startDelay: 0,
-            duration: 500,
+            duration: 800,
             effects: [
-                {
+                /* {
                     property: "rotation",
                     start: 0,
                     end: Math.PI,
                     ease: EaseFunctionType.IN_OUT_QUAD
-                },
+                }, */
                 {
                     property: "alpha",
                     start: 1,

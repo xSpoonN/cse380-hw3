@@ -35,7 +35,9 @@ export default class PlayerWeapon extends ParticleSystem {
         let cpos: Vec2 = particle.position;
         /* console.log(`mpos: ${mpos.x}, ${mpos.y}, cpos: ${cpos.x}, ${cpos.y}`); */
         /* particle.vel = RandUtils.randVec(100, 200, -32, 32); */
-        particle.vel = RandUtils.randVec(mpos.x - cpos.x-50, mpos.x - cpos.x+50, mpos.y-cpos.y-32, mpos.y-cpos.y+32);
+        let vec = new Vec2(mpos.x - cpos.x, mpos.y-cpos.y);
+        vec.normalize().scale(150);
+        particle.vel = RandUtils.randVec(vec.x-50, vec.x+50, vec.y-32, vec.y+32);
         /* particle.vel = new Vec2(mpos.x - cpos.x, mpos.y-cpos.y); */
         particle.color = Color.MAGENTA;
         /* particle.setGroup("WEAPON"); */
@@ -51,10 +53,15 @@ export default class PlayerWeapon extends ParticleSystem {
                     start: 1,
                     end: 0,
                     ease: EaseFunctionType.IN_OUT_SINE
+                },
+                {
+                    property: "rotation",
+                    start: 0,
+                    end: 4*Math.PI,
+                    ease: EaseFunctionType.IN_OUT_SINE
                 }
             ]
         });
-        /* Somehow call handleParticleHit() from HW3Level */
     }
 
 }

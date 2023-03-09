@@ -118,7 +118,7 @@ export default class PlayerController extends StateMachineAI {
         if (Input.isPressed(HW3Controls.ATTACK) && !this.weapon.isSystemRunning()) {
             // Start the particle system at the player's current position
             this.weapon.startSystem(500, 0, this.owner.position);
-            if (Input.getGlobalMousePosition().x < this.owner.position.x) this.owner.animation.play("ATTACKING_LEFT", false, undefined);
+            if (this.faceDir.x < 0) this.owner.animation.play("ATTACKING_LEFT", false, undefined);
             else this.owner.animation.play("ATTACKING_RIGHT", false, undefined);
             this.owner.animation.queue("IDLE", false, undefined);
         }

@@ -10,8 +10,8 @@ export default class Jump extends PlayerState {
         // Get the jump audio key for the player
         let jumpAudio = this.owner.getScene().getJumpAudioKey();
         /* console.log(this.parent.velocity.x); */
-        if (this.parent.velocity.x > 0) this.owner.tweens.play(PlayerTweens.FLIPL);
-        else this.owner.tweens.play(PlayerTweens.FLIPR);
+        /* if (this.parent.velocity.x > 0) this.owner.tweens.play(PlayerTweens.FLIPL);
+        else */ this.owner.tweens.play(PlayerTweens.FLIPR);
         // Give the player a burst of upward momentum
         this.parent.velocity.y = -200;
         // Play the jump sound for the player

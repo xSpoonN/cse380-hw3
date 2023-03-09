@@ -253,7 +253,7 @@ export default abstract class HW3Level extends Scene {
         /* console.log("Blah"); */
         // TODO detect whether a particle hit a tile
         return true;
-        return;
+        /* return; */
     }
 
     /**
@@ -463,7 +463,7 @@ export default abstract class HW3Level extends Scene {
                 {
                     property: "rotation",
                     start: 0,
-                    end: 2*Math.PI,
+                    end: -2*Math.PI,
                     ease: EaseFunctionType.IN_OUT_QUAD
                 }
             ]
